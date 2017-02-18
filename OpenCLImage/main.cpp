@@ -1,4 +1,8 @@
+#ifdef __APPLE__
+#include <OpenCL/opencl.h>
+#else
 #include <CL/cl.h>
+#endif
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -26,7 +30,7 @@ int main()
 
     cl_context context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &err);
     assert(err == CL_SUCCESS);
-    cl_command_queue command_queue = clCreateCommandQueueWithProperties(context, device_id, 0, &err);
+    cl_command_queue command_queue = clCreateCommandQueue(context, device_id, 0, &err);
     assert(err == CL_SUCCESS);
 
     // ============ READ KERNEL ============
@@ -94,7 +98,7 @@ int main()
         &err);
     assert(err == CL_SUCCESS);
 
-    size_t global_work_size[2] = { img_size.s[0], img_size.s[1] };
+    size_t global_work_size[2] = { static_cast<size_t>(img_size.s[0]), static_cast<size_t>(img_size.s[1]) };
 
     err = clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&input_img);
     assert(err == CL_SUCCESS);

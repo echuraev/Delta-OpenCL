@@ -1,4 +1,8 @@
+#ifdef __APPLE__
+#include <OpenCL/opencl.h>
+#else
 #include <CL/cl.h>
+#endif
 #include <fstream>
 #include <iostream>
 #include <string.h>
@@ -22,7 +26,7 @@ int main()
     // Create context
     cl_context context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &err);
     assert(err == CL_SUCCESS);
-    cl_command_queue command_queue = clCreateCommandQueueWithProperties(context, device_id, 0, &err);
+    cl_command_queue command_queue = clCreateCommandQueue(context, device_id, 0, &err);
     assert(err == CL_SUCCESS);
 
     // Read Kernel

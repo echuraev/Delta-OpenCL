@@ -1,7 +1,11 @@
 #ifndef IMAGEFUNCTIONS_H
 #define IMAGEFUNCTIONS_H
 
+#ifdef __APPLE__
+#include <OpenCL/opencl.h>
+#else
 #include <CL/cl.h>
+#endif
 #include <string>
 
 // Bitmap file headers and utilities

@@ -1,6 +1,11 @@
 SOURCES=*.cpp
 TARGET=OpenCLBuffers
-CXX_FLAGS=-g -std=c++11 -lOpenCL
+OS := $(shell uname)
+ifeq ($(OS),Darwin)
+	CXX_FLAGS=-g -std=c++11 -framework OpenCL
+else
+	CXX_FLAGS=-g -std=c++11 -lOpenCL
+endif
 
 .PHONY: all
 
@@ -12,5 +17,5 @@ $(TARGET): $(SOURCES)
 .PHONY: clean
 
 clean:
-		rm -vf $(TARGET)
+		rm -rvf $(TARGET) *.dSYM
 
